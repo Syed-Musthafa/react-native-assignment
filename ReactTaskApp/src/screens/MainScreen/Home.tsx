@@ -24,8 +24,12 @@ const Home = ({ navigation }): JSX.Element  => {
 
   useEffect(() => {
     setPostData(body)
-  },[user])
+  },[body])
 
+
+  useEffect(() => {
+    dispatch(fetchPostData())
+  }, [body])
 
   useEffect(() => {
     dispatch(fetchPostData())
