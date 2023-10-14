@@ -36,23 +36,20 @@ export const addPostData= createAsyncThunk(
         const config = {
             method: 'post',
             url: 'http://192.168.29.73:4000/api/v1/posts',
-            headers: {
-                'Authorization': '',
-                'Content-Type': ''
-            },
             data: data
         };
 
         const response = await axios(config)
-            .then(function (response) {
-            console.log(JSON.stringify(response.data));
-            })
+            .then((response) => response.data)
             .catch(function (error) {
             console.log(error);
             });
 
+            console.log("response", response);
             
-        return response.data
+
+            
+        return response
     }
 )
 

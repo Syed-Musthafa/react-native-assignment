@@ -31,16 +31,14 @@ const Home = ({ navigation }): JSX.Element  => {
     dispatch(fetchPostData())
   }, [])
 
-  useEffect(() => {
-    if(isFetching){
-
-      dispatch(fetchPostData())
-    }
-  }, [isFetching])
 
  const onRefresh = useCallback(() => {
-      setIsFetching(!isFetching)
- },[])
+      setIsFetching(true)
+      dispatch(fetchPostData())
+      setTimeout(() => {
+        setIsFetching(false)
+      }, 2000);
+ },[isFetching])
   
 
 
@@ -134,8 +132,8 @@ const Home = ({ navigation }): JSX.Element  => {
         <FlatList 
         data={postData}
         renderItem={renderPostContent}
-        // onRefresh={onRefresh}
-        // refreshing={isFetching}
+        onRefresh={onRefresh}
+        refreshing={isFetching}
       />
       ) 
         : (
