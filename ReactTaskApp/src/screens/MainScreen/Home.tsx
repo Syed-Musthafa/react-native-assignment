@@ -1,8 +1,7 @@
 import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState, useCallback } from 'react'
 import { Colors, Images } from '../../constant'
-import { Display } from '../../utils'
-import axios from 'axios'
+
 import { fetchPostData } from '../../store/reducers/post'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch } from '../../store/store'
@@ -27,7 +26,6 @@ const Home = ({ navigation }): JSX.Element  => {
     setPostData(body)
   },[user])
 
-  console.log("postData", postData);
 
   useEffect(() => {
     dispatch(fetchPostData())

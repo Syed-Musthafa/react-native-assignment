@@ -51,7 +51,6 @@ export const addPostData= createAsyncThunk(
             console.log(error);
             });
 
-            console.log("response", response.data);
             
         return response.data
     }

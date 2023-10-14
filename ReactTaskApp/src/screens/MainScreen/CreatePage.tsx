@@ -30,15 +30,13 @@ const CreatePage = ({navigation} :  any) => {
     tags: '',
   });
 
-  // const [createMsg, setCreateMsg] = useState<string>('')
-  // const [tags, setTags] = useState<string>('')
   const [tagData, setTagsData] = useState<string[]>([])
 
 
   const { caption, tags} = postState
 
   const handleChange = (name: string, value: string) => {
-    console.log('name:', name, value);
+
     setPostState({
       ...postState,
       [name]: value,
@@ -76,8 +74,6 @@ const CreatePage = ({navigation} :  any) => {
    
   },[tagData, caption])
 
-  console.log("postData", postData);
-  // console.log("tagData", tagData);
   
 
 
