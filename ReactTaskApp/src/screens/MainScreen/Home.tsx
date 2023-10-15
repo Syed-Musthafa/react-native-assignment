@@ -20,6 +20,14 @@ const Home = ({ navigation }): JSX.Element  => {
 
   const [isFetching, setIsFetching] = useState(false)
 
+  const [textShown, setTextShown] = useState(-1)
+
+ 
+
+  const toggleNumberOfLines = useCallback((index) => {
+    setTextShown((prev) => prev === index ? -1 : index);
+  },[textShown])
+
 
 
   useEffect(() => {
@@ -27,9 +35,9 @@ const Home = ({ navigation }): JSX.Element  => {
   },[body])
 
 
-  useEffect(() => {
-    dispatch(fetchPostData())
-  }, [body])
+  // useEffect(() => {
+  //   dispatch(fetchPostData())
+  // }, [body])
 
   useEffect(() => {
     dispatch(fetchPostData())
@@ -74,8 +82,6 @@ const Home = ({ navigation }): JSX.Element  => {
 
 
   const renderPostContent = ({ item, index }) => {
-
-
     return  (
       <View style={{ padding : 30, borderBottomWidth: 1, borderBottomColor : Colors.border}} key={index} >
         <View style={{ display: "flex", flexDirection: 'row', alignItems: "center" , }}>
@@ -87,15 +93,30 @@ const Home = ({ navigation }): JSX.Element  => {
           />
         </View>
         <View style={{ marginTop: 10}}>
-          <Text style={{  color : Colors.text_secondary, fontSize: 15,}}>
-            {item.caption}
-          </Text>
+            <Text
+                numberOfLines={textShown === index ? undefined : 2}
+                style={styles.description}
+                >
+                {item.caption}
+              </Text>
+              
+              {
+                item.caption.length > 100 && (
+                  <Text
+                  onPress={() => toggleNumberOfLines(index)}
+                  style={{ color: 'red' }}>
+                  {  textShown === index ? 'read less...' : 'read more...'}
+                </Text>
+                )
+              }
+             
+  
         </View>
         <View style={{ 
-          display: "flex", 
+           flexWrap: 'wrap',
          alignItems:'center',
          flexDirection: "row",
-        marginTop: 30
+        marginTop: 30,
          }}>
           {
             item?.tags?.map((item, index) => {
@@ -177,5 +198,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     backgroundColor: Colors.primary
+},
+description : {
+  color : Colors.text_secondary, 
+  fontSize: 15,
 }
 })
