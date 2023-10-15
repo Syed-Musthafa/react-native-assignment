@@ -35,9 +35,9 @@ const Home = ({ navigation }): JSX.Element  => {
   },[body])
 
 
-  // useEffect(() => {
-  //   dispatch(fetchPostData())
-  // }, [body])
+  useEffect(() => {
+    dispatch(fetchPostData())
+  }, [user])
 
   useEffect(() => {
     dispatch(fetchPostData())
@@ -104,7 +104,7 @@ const Home = ({ navigation }): JSX.Element  => {
                 item.caption.length > 100 && (
                   <Text
                   onPress={() => toggleNumberOfLines(index)}
-                  style={{ color: 'red' }}>
+                  style={{ color: Colors.secondary }}>
                   {  textShown === index ? 'read less...' : 'read more...'}
                 </Text>
                 )
@@ -156,6 +156,7 @@ const Home = ({ navigation }): JSX.Element  => {
       !loading ? (
         <FlatList 
         data={postData}
+        keyExtractor={(item) => item.id}
         renderItem={renderPostContent}
         onRefresh={onRefresh}
         refreshing={isFetching}

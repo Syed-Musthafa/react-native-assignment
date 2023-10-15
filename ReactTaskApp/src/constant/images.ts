@@ -6,5 +6,6 @@ export default {
     chipz: require('../assets/image/ChirpzLogoVector.svg'),
     right : require('../assets/image/Vector.png'),
     addPlus :  require('../assets/image/Add.png'),
+    back :  require('../assets/image/arrow-back.png'),
   
   };

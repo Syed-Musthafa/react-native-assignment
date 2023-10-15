@@ -46,7 +46,7 @@ const CreatePage = ({navigation} :  any) => {
 
   const handleAdd = useCallback( () => {
     if(tags !== ""){
-      setTagsData([...tagData, tags])
+      setTagsData([...tagData, '#'+tags])
       setPostState({
         caption : caption,
         tags : ''
@@ -83,11 +83,12 @@ const CreatePage = ({navigation} :  any) => {
         <View
           style={[{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}>
           <TouchableOpacity
+          onPress={()=> navigation.goBack()}
           >
             <Image
-              source={Images.profile}
+              source={Images.back}
               resizeMode="contain"
-              style={{ width: 40, height: 40, }}
+              style={{ width: 40, height: 40, tintColor: "#fff" }}
 
             />
           </TouchableOpacity>
@@ -165,7 +166,7 @@ const CreatePage = ({navigation} :  any) => {
                 marginTop: 5
 
                 }}>
-                <Text style={{  color : Colors.text_secondary, fontSize: 15,}}>#{item}</Text>
+                <Text style={{  color : Colors.text_secondary, fontSize: 15,}}>{item}</Text>
                </View>
             )
           })

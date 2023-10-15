@@ -33,6 +33,9 @@ export const addPostData= createAsyncThunk(
     'postData',
     async (data) => {
 
+        console.log("data", data);
+        
+
         const config = {
             method: 'post',
             url: 'http://192.168.29.73:4000/api/v1/posts',
