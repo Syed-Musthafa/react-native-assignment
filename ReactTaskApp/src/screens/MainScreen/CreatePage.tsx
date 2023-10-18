@@ -43,6 +43,12 @@ const CreatePage = ({navigation} :  any) => {
     });
   };
 
+  // const handleDisable = useCallback(() => {
+  //      const disable =  ? true : true
+
+  //      return disable
+  // }, [tagData, postData])
+
 
   const handleAdd = useCallback( () => {
     if(tags !== ""){
@@ -54,25 +60,41 @@ const CreatePage = ({navigation} :  any) => {
     }
   },[tagData, postState])
 
-  const handlePostData = useCallback(() => {
+  const handlePostData = useCallback(async() => {
 
-    const dataToSent = {
-      userName : "Musthafa",
-      caption : caption,
-      tags : tagData,
-    }
+    const dataToSent = [
+      {
+        userName : "Chirpz",
+        caption : caption,
+        tags : tagData,
+      }
+    ]
+     
+    
 
-    if(caption !== "") {
-      dispatch(addPostData(dataToSent))
-      navigation.navigate("Home")
+    if(caption !== "" && tagData.length !== 0) {
+      try {
+
+        await dispatch(addPostData(dataToSent));
+        navigation.navigate("Home")
+        
+      } catch (error) {
+        console.error(error);
+      }
     } else {
-      Alert.alert("Enter the Value")
+      Alert.alert(
+        "Input Alert",
+        "Enter the Value and Enter at least one tag",
+        [
+          { text: "OK" }
+        ]
+      );
     }
 
    
 
    
-  },[tagData, caption])
+  },[tagData, caption, dispatch, navigation])
 
   
 
@@ -94,6 +116,7 @@ const CreatePage = ({navigation} :  any) => {
           </TouchableOpacity>
           <TouchableOpacity 
           onPress={handlePostData}
+          disabled={caption === "" && tagData.length === 0}
           style={styles.postButton}>
             <Text style={{ color: Colors.text_main, fontSize: 16, fontWeight: 'bold', }}>post</Text>
           </TouchableOpacity>

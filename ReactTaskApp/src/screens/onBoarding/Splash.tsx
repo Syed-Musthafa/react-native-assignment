@@ -3,12 +3,17 @@ import React, { useEffect } from 'react'
 import { Display } from '../../utils'
 import { Colors, Images,  } from '../../constant'
 
-const Splash = ({navigation}) => {
+const Splash = ({navigation} :  any) => {
 
     useEffect(() => {
+
+
         setTimeout(() =>{
             navigation.navigate('Home')
-        }, 2000)
+        }, 1000)
+
+      
+
     }, [])
 
   return (

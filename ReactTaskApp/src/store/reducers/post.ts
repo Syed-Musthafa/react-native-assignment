@@ -1,97 +1,83 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
-
-
 type InitialState = {
-    loading: boolean
-    users: []
-    error: string
-}
+  loading: boolean;
+  users: [];
+  error: string;
+};
 
+type DataToSent = {
+  userName: string;
+  caption: string;
+  tags: []
+};
 
 const initialState: InitialState = {
-    loading: false,
-    users: [],
-    error: ''
-}
+  loading: false,
+  users: [],
+  error: '',
+};
 
+const baseUrl = "192.168.13.6";
 
-// Generates pending, fulfilled and rejected action types
-export const fetchPostData = createAsyncThunk('post/fetchPostData', () => {
-    return axios
-        .get('http://192.168.29.73:4000/api/v1/posts?_sort=createdAt&_order=desc')
-        .then(response => response.data)
-        .catch(err => console.log(err)
-        )
-})
+export const fetchPostData = createAsyncThunk('post/fetchPostData', async () => {
+  try {
+    const response = await axios.get(`http://${baseUrl}:4000/api/v1/posts?_sort=createdAt&_order=desc`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+});
 
-
-
-export const addPostData= createAsyncThunk(
-    'postData',
-    async (data) => {
-
-        console.log("data", data);
-        
-
-        const config = {
-            method: 'post',
-            url: 'http://192.168.29.73:4000/api/v1/posts',
-            data: data
-        };
-
-        const response = await axios(config)
-            .then((response) => response.data)
-            .catch(function (error) {
-            console.log(error);
-            });
-
-            console.log("response", response);
-            
-
-            
-        return response
-    }
-)
-
+export const addPostData = createAsyncThunk('post/fetchAddData', async (data) => {
+  try {
+    const response = await axios.post(`http://${baseUrl}:4000/api/v1/posts`, data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+});
 
 const postData = createSlice({
-    name: "post",
-    initialState,
-    reducers: {},
-    extraReducers: builder => {
-        builder.addCase(fetchPostData.pending, state => {
-            state.loading = true
-        })
-        builder.addCase(fetchPostData.fulfilled, (state, action: PayloadAction<[]>) => {
-            state.loading = false,
-                state.users = action.payload,
-                state.error = ''
-        }
-        )
-        builder.addCase(fetchPostData.rejected, (state, action) => {
-            state.loading = false
-            state.users = []
-            state.error = action.error.message || 'Something went wrong'
-        })
-        builder.addCase(addPostData.pending, state => {
-            state.loading = true
-        })
-        builder.addCase(addPostData.fulfilled, (state, action: PayloadAction<[]>) => {
-            state.loading = false,
-                state.users = action.payload
-                state.error = ''
-        }
-        )
-        builder.addCase(addPostData.rejected, (state, action) => {
-            state.loading = false
-            state.users = []
-            state.error = action.error.message || 'Something went wrong'
-        })
-    }
-})
-
+  name: "post",
+  initialState : initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchPostData.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchPostData.fulfilled, (state, action: PayloadAction<[]>) => {
+        state.loading = false;
+        console.log("state.users post", state.users);
+        console.log("action.payload post", action.payload);
+        state.users = action.payload;
+        state.error = '';
+      })
+      .addCase(fetchPostData.rejected, (state, action) => {
+        state.loading = false;
+        state.users = [];
+        state.error = action.error.message || 'Something went wrong';
+      })
+      .addCase(addPostData.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addPostData.fulfilled, (state, action) => {
+        state.loading = false;
+        
+        state.users = action.payload
+     
+        state.error = '';
+      })
+      .addCase(addPostData.rejected, (state, action) => {
+        state.loading = false;
+        state.users = [];
+        state.error = action.error.message || 'Something went wrong';
+      });
+  },
+});
 
 export default postData.reducer;
