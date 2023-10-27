@@ -14,16 +14,12 @@ import {fetchPostData} from '../../store/reducers/post';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../../store/store';
 
-const Home = ({navigation}): JSX.Element => {
+const Home = ({navigation} : any): JSX.Element => {
 
   const user = useSelector((state: any) => state.post);
 
   const { loading , users, error } = user
 
-  const { body } = users ?? [];
-
-  console.log("user data", user);
-  
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -33,19 +29,16 @@ const Home = ({navigation}): JSX.Element => {
 
   const [textShown, setTextShown] = useState(-1);
 
-
   useEffect(() => {
       dispatch(fetchPostData());
   }, []);
 
 
   useEffect(() => {
-    setPostData(body);
-  }, [body]);
+    setPostData(users);
+  }, [users]);
   
-  useEffect(() => {
-    dispatch(fetchPostData());
-  }, [dispatch]);
+
 
   const onRefresh = useCallback(() => {
     setIsFetching(true);
@@ -95,7 +88,7 @@ const Home = ({navigation}): JSX.Element => {
     );
   }
 
-  const renderPostContent = ({item, index}) => {
+  const renderPostContent = ({item, index}: any) => {
     return (
       <View
         style={{
@@ -137,7 +130,7 @@ const Home = ({navigation}): JSX.Element => {
             flexDirection: 'row',
             marginTop: 30,
           }}>
-          {item?.tags?.map((item, index) => {
+          {item?.tags?.map((item : string, index : number) => {
             return (
               <View
               key={index}

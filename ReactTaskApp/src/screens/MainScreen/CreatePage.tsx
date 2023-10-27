@@ -43,12 +43,6 @@ const CreatePage = ({navigation} :  any) => {
     });
   };
 
-  // const handleDisable = useCallback(() => {
-  //      const disable =  ? true : true
-
-  //      return disable
-  // }, [tagData, postData])
-
 
   const handleAdd = useCallback( () => {
     if(tags !== ""){
@@ -62,21 +56,20 @@ const CreatePage = ({navigation} :  any) => {
 
   const handlePostData = useCallback(async() => {
 
-    const dataToSent = [
-      {
-        userName : "Chirpz",
+    const dataToSent = {
+      id: '',
+        userName : caption,
         caption : caption,
         tags : tagData,
       }
-    ]
-     
     
 
     if(caption !== "" && tagData.length !== 0) {
       try {
-
-        await dispatch(addPostData(dataToSent));
-        navigation.navigate("Home")
+       
+        await dispatch(addPostData(dataToSent))
+        navigation.navigate("Home");
+      
         
       } catch (error) {
         console.error(error);
